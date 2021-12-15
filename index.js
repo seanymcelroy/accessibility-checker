@@ -1,5 +1,9 @@
-document.getElementById("xyz").addEventListener("click", ()=>{
-    httpReq()
+const history=[1,2,3]
+
+document.getElementById("btn").addEventListener("click", ()=>{
+    const search_box=document.getElementById("search_box")
+    const search_box_text=search_box.value;
+    addSearchHistory(search_box_text)
 })
 
 function httpReq(){
@@ -16,4 +20,17 @@ function httpReq(){
         console.log(data)
     })
     .catch(error => console.log(error))
+}
+
+function addSearchHistory(domain){
+    history.push(domain)
+
+    let listItemNode = document.createElement("LI");
+    listItemNode.setAttribute("id", domain);
+    
+    let textNode = document.createTextNode(domain);
+    listItemNode.appendChild(textNode);
+
+    let historyList=document.getElementById("history_list");
+    historyList.appendChild(listItemNode);
 }
