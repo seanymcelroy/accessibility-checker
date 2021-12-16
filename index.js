@@ -1,17 +1,44 @@
 
 const history=[1,2,3]
 const search_box=document.getElementById("search_box")
+const button=document.getElementById("btn")
+button.setAttribute("disabled", true)
 
 search_box.addEventListener("keyup", ()=>{
     const search_box_text=search_box.value;
-    console.log(search_box_text);
-
+    // console.log(search_box_text);
+    if(isValidDomain(search_box_text)){
+        button.removeAttribute("disabled")
+    }else{
+        button.setAttribute("disabled", true)
+        
+    }
 })
 
-document.getElementById("btn").addEventListener("click", ()=>{
+button.addEventListener("click", ()=>{
     const search_box_text=search_box.value;
     addSearchHistory(search_box_text)
 })
+
+function addSearchHistory(domain){
+    history.push(domain)
+
+    let listItemNode = document.createElement("LI");
+    listItemNode.setAttribute("id", domain);
+    
+    let textNode = document.createTextNode(domain);
+    listItemNode.appendChild(textNode);
+
+    let historyList=document.getElementById("history_list");
+    historyList.appendChild(listItemNode);
+}
+
+function isValidDomain(search_box_text){
+    if (search_box_text.length===0){
+        return false
+    }
+    return true
+}
 
 function httpReq(){
     fetch("http://localhost:8080")
@@ -27,17 +54,4 @@ function httpReq(){
         console.log(data)
     })
     .catch(error => console.log(error))
-}
-
-function addSearchHistory(domain){
-    history.push(domain)
-
-    let listItemNode = document.createElement("LI");
-    listItemNode.setAttribute("id", domain);
-    
-    let textNode = document.createTextNode(domain);
-    listItemNode.appendChild(textNode);
-
-    let historyList=document.getElementById("history_list");
-    historyList.appendChild(listItemNode);
 }
