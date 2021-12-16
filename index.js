@@ -1,7 +1,14 @@
+
 const history=[1,2,3]
+const search_box=document.getElementById("search_box")
+
+search_box.addEventListener("keyup", ()=>{
+    const search_box_text=search_box.value;
+    console.log(search_box_text);
+
+})
 
 document.getElementById("btn").addEventListener("click", ()=>{
-    const search_box=document.getElementById("search_box")
     const search_box_text=search_box.value;
     addSearchHistory(search_box_text)
 })
