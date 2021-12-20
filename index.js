@@ -16,6 +16,7 @@ search_box.addEventListener("keyup", ()=>{
 
 button.addEventListener("click", ()=>{
     const search_box_text=search_box.value;
+    check_access(search_box_text)
     addSearchHistory(search_box_text);
 })
 
@@ -35,17 +36,21 @@ function addSearchHistory(domain){
 
     let historyList=document.getElementById("history_list");
     historyList.appendChild(listItemNode);
+    button.setAttribute("disabled", true);
 }
 
 function isValidDomain(search_box_text){
-    if (search_box_text.length===0){
+    if (search_box_text.length===0 || history.has(search_box_text)){
         return false;
     }
     return true;
 }
 
-function httpReq(){
-    fetch("http://localhost:8080")
+function check_access(domain){
+    fetch("http://localhost:8080", {
+        method: 'POST',
+        body: JSON.stringify({"url": domain})
+    })
     .then(response => {
         // indicates whether the response is successful (status code 200-299) or not
         if (!response.ok) {
